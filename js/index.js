@@ -1,7 +1,7 @@
 
 const textInput = document.getElementById('textInput');
 const textBut = document.getElementById('textBut');
-const answer = document.getElementById('answer');
+const statisticsDiv = document.getElementById("statistics");
 textBut.addEventListener('click', () => {
     const text = textInput.value;
     const words = text.split(" ");
@@ -14,13 +14,21 @@ textBut.addEventListener('click', () => {
         }
     }
     if (text.trim() !== "") {
-        wordCount(textArr);
+        getCount(textArr);
     }
     else {
-        answer.textContent = "Кількість слів: 0";
+        statisticsDiv.innerHTML = "<p>Кількість унікальних слів: 0 .</p>";
+        statisticsDiv.classList.add('active');
     }
+
+    textInput.value = "";
+})
+
+function getCount(array) {
+    const uniqueWords = new Set(array);
+    const counts = uniqueWords.size;
     const wordCountMap = new Map;
-    textArr.forEach(function (word) {
+    array.forEach(function (word) {
         if (wordCountMap.has(word)) {
             wordCountMap.set(word, wordCountMap.get(word) + 1)
         }
@@ -28,18 +36,12 @@ textBut.addEventListener('click', () => {
             wordCountMap.set(word, 1)
         }
     })
-    const statisticsDiv = document.getElementById("statistics");
     statisticsDiv.classList.add('active');
-    statisticsDiv.innerHTML = "<p>Кількість входжень слів:</p>";
+
+    statisticsDiv.innerHTML = `<p>Кількість унікальних слів: ${counts}</p>
+    <p>Кількість входжень слів:</p>`;
     wordCountMap.forEach(function (count, word) {
         statisticsDiv.innerHTML += "<p>" + word + ": " + count + " раз(и)</p>";
     });
-    textInput.value = "";
-})
-function wordCount(arr) {
-    const uniqueWords = new Set(arr);
-    const counts = uniqueWords.size;
-    answer.textContent = "Кількість унікальних слів:" + counts;
 }
-
 
