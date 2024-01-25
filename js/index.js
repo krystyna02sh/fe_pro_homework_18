@@ -1,4 +1,4 @@
-
+debugger
 const textInput = document.getElementById('textInput');
 const textBut = document.getElementById('textBut');
 const statisticsDiv = document.getElementById("statistics");
@@ -7,7 +7,7 @@ textBut.addEventListener('click', () => {
     const words = text.split(" ");
     const textArr = [];
     for (let i = 0; i < words.length; i++) {
-        let el = words[i];
+        const el = words[i];
 
         if (el.trim() !== "") {
             textArr.push(el)
@@ -25,15 +25,19 @@ textBut.addEventListener('click', () => {
 })
 
 function getCount(array) {
-    const uniqueWords = new Set(array);
-    const counts = uniqueWords.size;
+    const uniqueWords = new Set;
     const wordCountMap = new Map;
+    array.forEach(function (element) {
+        uniqueWords.add(element.toLowerCase());
+    })
+    const counts = uniqueWords.size;
     array.forEach(function (word) {
-        if (wordCountMap.has(word)) {
-            wordCountMap.set(word, wordCountMap.get(word) + 1)
+        const wordlow = word.toLowerCase();
+        if (wordCountMap.has(wordlow)) {
+            wordCountMap.set(wordlow, wordCountMap.get(wordlow) + 1)
         }
         else {
-            wordCountMap.set(word, 1)
+            wordCountMap.set(wordlow, 1)
         }
     })
     statisticsDiv.classList.add('active');
